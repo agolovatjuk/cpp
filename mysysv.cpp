@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
     int rc;
     int fd;
 
+    char hello_msg[] = "Hello, SYSV";
     char fname[] = "message.txt";
     
 //    int fd = open("/tmp/mesg.tmp", O_RDWR|O_CREAT, 0666);
@@ -74,10 +75,11 @@ int main(int argc, char** argv) {
 //        return 1;
 //    }
     
-    snprintf(msg.mtext, sizeof(msg.mtext), "%s", "Hello, SYSV");
+    snprintf(msg.mtext, sizeof(msg.mtext), "%s", hello_msg);
     
-// TO DO size !!!    see write file 
-    rc = msgsnd(msgid, &msg, sizeof(msg.mtext) , 0);
+// TO DO size !!!    see write file - done
+//    rc = msgsnd(msgid, &msg, sizeof(msg.mtext) , 0);
+    rc = msgsnd(msgid, &msg, sizeof(hello_msg) , 0);
 //    if (rc < 0){
 //        std::cout << "Error send" << std::endl;
 //        return 1;
@@ -92,8 +94,8 @@ int main(int argc, char** argv) {
 
     printf(" Recieved:%s:", rmsg.mtext);
     fd = open(fname, O_CREAT|O_RDWR|O_TRUNC, 0666);
-    rc = write(fd, rmsg.mtext, bytes);
 //    rc = write(fd, rmsg.mtext, strlen(rmsg.mtext));
+    rc = write(fd, rmsg.mtext, bytes);
     close(fd);
 
 //    FILE *f=fopen(fname, "w");
